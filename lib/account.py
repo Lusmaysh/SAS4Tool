@@ -1,6 +1,14 @@
-from lib.utilities import loadSave, writeSave, promptInt, directFunction, menuOptions, loadItems, nestedMenuOptions
+from lib.utilities import loadSave, writeSave, promptInt, directFunction, menuOptions, loadItems, nestedMenuOptions, dataclass
 from typing import Union, List
 
+@dataclass
+class F:
+    RESET: str = '\u001B[0m'
+    RED: str = '\u001B[31m'
+    GREEN: str = '\u001B[32m'
+    YELLOW: str = '\u001B[33m'
+    CYAN: str = '\u001B[36m'
+    WHITE: str = '\u001B[37m'
 
 @menuOptions
 def changeGuild(guild: str = "__menu_options__") -> Union[str, List[str]]:
@@ -28,7 +36,7 @@ def changeGuild(guild: str = "__menu_options__") -> Union[str, List[str]]:
 
 
 @menuOptions
-def setCredits(planet: str = "__menu_options__") -> Union[str, List[str]]:
+def setCredits(planet: str = "__menu_options__", amount: int = None) -> Union[str, List[str]]:
     PLANETS = [
         ('ZETA', 0),
         ('EPSILON', 1),
@@ -43,20 +51,21 @@ def setCredits(planet: str = "__menu_options__") -> Union[str, List[str]]:
     userData = loadSave()
     
     if planet == "FACTION WAR":
-        amount = promptInt("Enter the amount of FactionWarCredits: ")
+        amount = promptInt("Enter the amount of FactionWarCredits: ") if amount is None else amount
         userData['FactionWarCredits'] = amount
         writeSave(userData)
         return f"Set FactionWarCredits to {amount}"
     
     if planet == "ALL":
-        amount = promptInt("Enter the amount of credits for all planets: ")
+        amount = promptInt("Enter the amount of credits for all planets and faction credit: ") if amount is None else amount
+        userData['FactionWarCredits'] = amount
         for p in userData['FactionWarPlanetArray']:
             p['Currency'] = amount
     else:
         planet_name, planet_index = next(((p[0], p[1]) for p in PLANETS if f"{p[0]}" == planet), (None, None))
         if planet_index is None:
             return f"Invalid planet: {planet}"
-        amount = promptInt(f"Enter the amount of credits for {planet_name}: ")
+        amount = promptInt(f"Enter the amount of credits for {planet_name}: ") if amount is None else amount
         userData['FactionWarPlanetArray'][planet_index]['Currency'] = amount
     
     writeSave(userData)
@@ -95,26 +104,27 @@ def unlockFairground():
 
 
 @directFunction
-def setTokens():
+def setTokens(amount: int = None):
     userData = loadSave()
-    amount = promptInt('Set revive token amount: ')
+    if amount is None:
+        amount = promptInt('Set revive token amount: ', minValue=0)
     userData['Global']['ReviveTokens'] = amount
     writeSave(userData)
     return f"Set revive tokens to {amount}"
 
 
 @directFunction
-def removeAds():
+def removeAds(boolean: bool = None):
     userData = loadSave()
-    userData['Global']['ForceRemoveAds'] = not userData['Global']['ForceRemoveAds']
+    userData['Global']['ForceRemoveAds'] = not userData['Global']['ForceRemoveAds'] if boolean is None else boolean
     writeSave(userData)
     return f'{'Removed ads' if userData['Global']['ForceRemoveAds'] else 'Ads have been turned on'}'
 
-
 @directFunction
-def setNightmareTickets():
+def setNightmareTickets(amount: int = None):
     userData = loadSave()
-    amount = promptInt('Set nightmare tickets amount: ')
+    if amount is None:
+        amount = promptInt('Set nightmare tickets amount: ', minValue=0)
     userData['Global']['AvailablePremiumTickets'] = amount
     writeSave(userData)
     return f"Set nightmare tickets to {amount}"
@@ -125,7 +135,22 @@ def unlockWeaponCollection(weaponType: str = '__menu_options__'):
     items = loadItems()
     
     if weaponType == '__menu_options__':
-        return {w.capitalize().replace('_', ' '): unlockWeaponCollection for w in items['weapons'].keys()}
+        options = {w.capitalize().replace('_', ' '): unlockWeaponCollection for w in items['weapons'].keys()}
+        options['ALL'] = unlockWeaponCollection
+        return options
+    
+    userData = loadSave()
+
+    if weaponType == 'ALL': 
+        for category in items['weapons'].keys():
+            for version in items['weapons'][category].keys():
+                for weapon in items['weapons'][category][version]:
+                    weaponID = weapon['ID']
+                    for x in userData['CollectionArrayWeapon']:
+                        if x['CollectionId'] == weaponID:
+                            x['CollectionUnlocked'] = True
+        writeSave(userData)
+        return 'All weapons have been unlocked in the collection.'
     
     def setWeaponVersion(version: str = '__menu_options__'):
         if version == '__menu_options__':
@@ -139,7 +164,6 @@ def unlockWeaponCollection(weaponType: str = '__menu_options__'):
             
             selectedWeapon = next((w for w in WEAPONS if w['Name'] == weapon), None)
             if selectedWeapon:
-                userData = loadSave()
                 weaponID = selectedWeapon['ID']
                 
                 for x in userData['CollectionArrayWeapon']:
@@ -160,8 +184,23 @@ def unlockArmorCollection(armorType: str = '__menu_options__'):
     items = loadItems()
     
     if armorType == '__menu_options__':
-        return {a.capitalize().replace('_', ' '): unlockArmorCollection for a in items['armour'].keys()}
+        options = {a.capitalize().replace('_', ' '): unlockArmorCollection for a in items['armour'].keys()}
+        options['ALL'] = unlockArmorCollection
+        return options
     
+    userData = loadSave()
+
+    if armorType == 'ALL': 
+        for category in items['armour'].keys():
+            for version in items['armour'][category].keys():
+                for armor in items['armour'][category][version]:
+                    armorID = armor['ID']
+                    for x in userData['CollectionArrayArmour']:
+                        if x['CollectionId'] == armorID:
+                            x['CollectionUnlocked'] = True
+        writeSave(userData)
+        return 'All armor has been unlocked in the collection.' 
+
     def setArmorVersion(version: str = '__menu_options__'):
         if version == '__menu_options__':
             return {v.capitalize(): setArmorVersion for v in items['armour'][armorType.lower().replace(' ', '_')].keys()}
@@ -174,7 +213,6 @@ def unlockArmorCollection(armorType: str = '__menu_options__'):
             
             selectedArmor = next((a for a in ARMORS if a['Name'] == armor), None)
             if selectedArmor:
-                userData = loadSave()
                 armorID = selectedArmor['ID']
                 
                 for x in userData['CollectionArrayArmour']:
@@ -200,17 +238,20 @@ def toggleCollectionRewards(category: str = '__menu_options__'):
     armourRewards = [key for key in rewards.keys() if key.startswith('CollectionRewardArmour') or 
                      any(armor in key for armor in ['Helmet', 'Torso', 'Gloves', 'Pants', 'Boots'])]
 
-    def toggleReward(reward: str = '__menu_options__'):
+    def toggleReward(reward: str = '__menu_options__', setValue: bool = None):
         if reward == '__menu_options__':
             return {key: toggleReward for key in rewards.keys() if key in (weaponRewards if category == 'Weapons' else armourRewards)}
         
         if reward == 'Toggle All':
-            new_value = not all(rewards[key] for key in (weaponRewards if category == 'Weapons' else armourRewards))
+            if setValue is not None:
+                new_value = setValue
+            else:
+                new_value = not all(rewards[key] for key in (weaponRewards if category == 'Weapons' else armourRewards))
             for key in (weaponRewards if category == 'Weapons' else armourRewards):
                 rewards[key] = new_value
             writeSave(userData)
             return f"All {category} rewards set to {new_value}"
-        
+                
         rewards[reward] = not rewards[reward]
         writeSave(userData)
         return f"{reward} set to {rewards[reward]}"
