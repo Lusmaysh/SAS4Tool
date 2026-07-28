@@ -21,6 +21,3 @@ if __name__ == '__main__':
     initCheck()
     main()
     exit()
-
-    # config = loadConfig()
-    # print(config)
