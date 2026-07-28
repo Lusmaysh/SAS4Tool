@@ -22,18 +22,31 @@ from datetime import datetime
 def changeCurrentProfile(profile: str = "__menu_options__"):
     config = loadConfig()
     activeProfiles = config.get('active_profiles', [])
+    activeNames = config.get('active_profiles_names', [])
     
+    profile_to_name = dict(zip(activeProfiles, activeNames))
+
     if profile == "__menu_options__":
-        return activeProfiles
+        options_list = [
+            f"{prof_id} ({profile_to_name.get(prof_id, 'Unknown')})" 
+            for prof_id in activeProfiles
+        ]
+        return options_list
+
+    selected_id = profile.split(' ')[0] if ' (' in profile else profile
+
     try:
-        if profile not in activeProfiles:
-            return f"Invalid profile: {profile}"
+        if selected_id not in activeProfiles:
+            return f"Invalid profile: {selected_id}"
     except Exception as e:
         return f'Error: {e}'
     
-    config['current_profile'] = profile
+    selected_name = profile_to_name.get(selected_id, 'Unknown')
+    config['current_profile'] = selected_id
+    config['current_profile_name'] = selected_name
+    
     writeConfig(config)
-    return f"Changed current profile to {profile}"
+    return f"Changed current profile to {selected_id} ({selected_name})"
 
 
 @directFunction
