@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from lib.utilities import initCheck, handleMenu, loadConfig
+from lib.utilities import initCheck, handleMenu
 from lib.account import ACCOUNT
 from lib.cfg import CFG
 from lib.profile import PROFILE
@@ -18,9 +18,9 @@ def main():
 
 
 if __name__ == '__main__':
-    # initCheck()
-    # main()
-    # exit()
+    initCheck()
+    main()
+    exit()
 
-    config = loadConfig()
-    print(config)
+    # config = loadConfig()
+    # print(config)

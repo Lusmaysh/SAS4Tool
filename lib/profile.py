@@ -116,12 +116,13 @@ def setGrenades(grenade: str = '__menu_options__', amount: int = None):
         options.extend(['ALL'])
         return options
 
-    userData = loadSave()
-    profile = loadConfig()['current_profile']
+    
 
     if grenade == 'ALL':
         if amount is None:
             amount = promptInt('Enter amount for all grenades: ', minValue=0)
+        userData = loadSave()
+        profile = loadConfig()['current_profile']
         for optionName, identifier in GRENADES:
             userData['Inventory'][profile]['Ammo'][identifier] = amount
         writeSave(userData)
@@ -131,6 +132,8 @@ def setGrenades(grenade: str = '__menu_options__', amount: int = None):
     
     if amount is None:
         amount = promptInt(f'Enter amount of {optionName}: ', minValue=0)
+    userData = loadSave()
+    profile = loadConfig()['current_profile']
     userData['Inventory'][profile]['Ammo'][identifier] = amount
     writeSave(userData)
     return f'{optionName} set to {amount:,}'
@@ -188,19 +191,33 @@ def setTurrets(turret: str = '__menu_options__', amount: int = None):
     return f'{optionName} turret amount set to: {amount}'
 
 def _resolveStats(bonus, augments, grade, maxAugments=4):
-    bonus = promptInt('Set item bonus stats [0-10]: ', minValue=0, maxValue=10) if bonus is None or not (0 <= bonus <= 10) else bonus
-    augments = promptInt(f'Set item augments [0-{maxAugments}]: ', minValue=0, maxValue=maxAugments) if augments is None or not (0 <= augments <= 4) else augments
     grade = promptInt('Set item grade [0-12]: ', minValue=0, maxValue=12) if grade is None or not (0 <= grade <= 12) else grade
+    augments = promptInt(f'Set item augments [0-{maxAugments}]: ', minValue=0, maxValue=maxAugments) if augments is None or not (0 <= augments <= maxAugments) else augments
+    bonus = promptInt('Set item bonus stats [0-10]: ', minValue=0, maxValue=10) if bonus is None or not (0 <= bonus <= 10) else bonus
     return bonus, augments, grade
 
-def _buildStrongbox(weaponID, grade, augments, bonus, equipVersion=0):
-    return {
-        "ID": weaponID,
+def _buildStrongbox(ID, grade, augments, bonus, equipVersion=0, equippedSlot=-1, inventoryIndex=0, equipped=None):
+    # return {
+    #     "ID": weaponID,
+    #     "EquipVersion": equipVersion,
+    #     "Grade": grade,
+    #     "EquippedSlot": equippedSlot,
+    #     "AugmentSlots": augments,
+    #     "InventoryIndex": inventoryIndex,
+    #     "Seen": False,
+    #     "BonusStatsLevel": bonus,
+    #     "ContainsKey": False,
+    #     "ContainsAugmentCore": False,
+    #     "BlackStrongboxSeed": 0,
+    #     "UseDefaultOpenLogic": True
+    # }
+    strongbox = {
+        "ID": ID,
         "EquipVersion": equipVersion,
         "Grade": grade,
-        "EquippedSlot": -1,
+        "EquippedSlot": equippedSlot,
         "AugmentSlots": augments,
-        "InventoryIndex": 0,
+        "InventoryIndex": inventoryIndex,
         "Seen": False,
         "BonusStatsLevel": bonus,
         "ContainsKey": False,
@@ -208,6 +225,9 @@ def _buildStrongbox(weaponID, grade, augments, bonus, equipVersion=0):
         "BlackStrongboxSeed": 0,
         "UseDefaultOpenLogic": True
     }
+    if equipped is not None:
+        strongbox["Equipped"] = equipped
+    return strongbox
 
 def _grantWeapon(userData, profile, selectedWeapon, bonus, augments, grade, owned_weapons):
     weaponID = selectedWeapon['ID']
@@ -263,51 +283,36 @@ def setStdWeapons(weaponType: str = '__menu_options__', bonus: int = None, augme
 
 
 @nestedMenuOptions
-def setArmour(armourType = '__menu_options__'):
+def setArmour(armourType = '__menu_options__', bonus: int = None, augments: int = None, grade: int = None, ):
     items = loadItems()
 
     if armourType == '__menu_options__':
-        return {a.capitalize().replace('_', ' '): setArmour for a in items['armour'].keys()}
+        return {a.capitalize().replace('_', ' '): partial(setArmour, bonus=bonus, augments=augments, grade=grade) for a in items['armour'].keys()}
 
-    def setArmourVersion(version: str = '__menu_options__'):
+    def setArmourVersion(version: str = '__menu_options__', bonus=bonus, augments=augments, grade=grade):
         if version == '__menu_options__':
-            return {v.capitalize(): setArmourVersion for v in items['armour'][armourType.lower().replace(' ', '_')].keys()}
+            return {v.capitalize(): partial(setArmourVersion, bonus=bonus, augments=augments, grade=grade) for v in items['armour'][armourType.lower().replace(' ', '_')].keys()}
         
         ARMOUR = items['armour'][armourType.lower().replace(' ', '_')][version.lower()]
         
-        def setArmourItem(armour: str = '__menu_options__'):
+        def setArmourItem(armour: str = '__menu_options__', bonus=bonus, augments=augments, grade=grade):
             if armour == '__menu_options__':
-                return {a['Name']: setArmourItem for a in ARMOUR}
+                return {a['Name']: partial(setArmourItem, bonus=bonus, augments=augments, grade=grade) for a in ARMOUR}
 
             selectedWeapon = next((a for a in ARMOUR if a['Name'] == armour), None)
             if selectedWeapon:
+                resolvedBonus, resolvedAugments, resolvedGrade = _resolveStats(bonus, augments, grade, maxAugments=3)
+
+                equipVersion = {'normal': 0, 'red': 1, 'black': 2, 'factions': 3}.get(version.lower(), 0)
+                equippedSlot = {'helmet': 1, 'vest': 2, 'gloves': 3, 'boots': 4, 'pants': 5}.get(armourType.lower(), 0)
+                strongbox = _buildStrongbox(selectedWeapon['ID'], resolvedGrade, resolvedAugments, resolvedBonus, equipVersion, equippedSlot, inventoryIndex=-1, equipped=False)
+                                
                 userData = loadSave()
                 profile = loadConfig()['current_profile']
-                armourID = selectedWeapon['ID']
-                bonus = promptInt('Set item bonus stats [0-10]: ', minValue=0, maxValue=10)
-                augments = promptInt('Set item augments [0-3]: ', minValue=0, maxValue=3)
-                grade = promptInt('Set item grade [0-12]: ', minValue=0, maxValue=12)
-                
-                strongbox = {
-                    "ID": armourID,
-                    "EquipVersion": {'normal': 0, 'red': 1, 'black': 2, 'factions': 3}.get(version, 0),
-                    "Grade": grade,
-                    "EquippedSlot": {'helmet': 1, 'vest': 2, 'gloves': 3, 'boots': 4, 'pants': 5}.get(armourType.lower(), 0),
-                    "AugmentSlots": augments,
-                    "InventoryIndex": -1,
-                    "Seen": False,
-                    "BonusStatsLevel": bonus,
-                    "Equipped": False, 
-                    "ContainsKey": False,
-                    "ContainsAugmentCore": False,
-                    "BlackStrongboxSeed": 0,
-                    "UseDefaultOpenLogic": True
-                }
-                
                 userData['Inventory'][profile]['Strongboxes']['Claimed'].extend([1, strongbox, 8, 2])
                 
                 writeSave(userData)
-                return f'{armour} ({version}) added to strongboxes with bonus: {bonus}, augments: {augments}, grade: {grade}'
+                return f'{armour} ({version}) added to strongboxes with bonus: {resolvedBonus}, augments: {resolvedAugments}, grade: {resolvedGrade}'
             
         return setArmourItem()
 
