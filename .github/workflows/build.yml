@@ -19,6 +19,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+          cache: "pip"
 
       - name: Set up UPX
         uses: crazy-max/ghaction-upx@v3
@@ -30,11 +31,11 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pyinstaller
-          # Add pip install -r requirements.txt if there was another dependencies
+          pip install -r requirements.txt
 
       - name: Build with PyInstaller
         run: |
-          pyinstaller main.py --onefile --add-data "lib;lib" -n SAS4Tool
+          pyinstaller main.py --onefile --add-data "lib;lib" --hidden-import=win32api --hidden-import=win32con -n SAS4Tool
 
       - name: Compress with UPX
         run: |
