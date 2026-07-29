@@ -448,12 +448,12 @@ def printTitle(extra: Optional[str] = None):
           / __/ _ | / __/ / /_  __/ __ \/ __ \/ / 
          _\ \/ __ |_\ \/_  _// / / /_/ / /_/ / /__
         /___/_/ |_/___/ /_/ /_/  \____/\____/____/'''
-    part2 = f'''
+    part2 = f"""
 {F.RED}{part1}{F.WHITE}
 \t\t{F.CYAN}made by: 0dx | ver: {const.VERSION}{F.WHITE}
 
 {F.WHITE}Selected Profile: [{F.GREEN}{config['current_profile']} {config['current_profile_name']}{F.WHITE}]
-'''
+"""
     if extra:
         part2 += f'\n{extra}\n'
     

@@ -88,7 +88,7 @@ def unlockProfiles(profile: str = '__menu_options__'):
         if i['Identifier'] == identifier:
             i['Value'] = not (i['Value'])
             writeSave(userData)
-            return f'Profile: {optionName} was {'activated' if i['Value'] else 'deactivated'}'
+            return f"Profile: {optionName} was {'activated' if i['Value'] else 'deactivated'}"
 
 
 @directFunction
@@ -100,7 +100,7 @@ def unlockFairground():
             if i['Identifier'] == 'sas4_fairgroundpacksale':
                 i['Value'] = not (i['Value'])
             writeSave(userData)
-            return f'{'Activated fairground pack' if i['Value'] else 'Deactivated fairground pack'}'
+            return f"{'Activated fairground pack' if i['Value'] else 'Deactivated fairground pack'}"
 
 
 @directFunction
@@ -118,7 +118,7 @@ def removeAds(boolean: bool = None):
     userData = loadSave()
     userData['Global']['ForceRemoveAds'] = not userData['Global']['ForceRemoveAds'] if boolean is None else boolean
     writeSave(userData)
-    return f'{'Removed ads' if userData['Global']['ForceRemoveAds'] else 'Ads have been turned on'}'
+    return f"{'Removed ads' if userData['Global']['ForceRemoveAds'] else 'Ads have been turned on'}"
 
 @directFunction
 def setNightmareTickets(amount: int = None):
@@ -170,7 +170,7 @@ def unlockWeaponCollection(weaponType: str = '__menu_options__'):
                     if x['CollectionId'] == weaponID:
                         x['CollectionUnlocked'] = not x['CollectionUnlocked']
                         writeSave(userData)
-                        return f'{weapon} ({version}) has been {'unlocked' if x['CollectionUnlocked'] else 'locked'} in the collection.'
+                        return f"{weapon} ({version}) has been {'unlocked' if x['CollectionUnlocked'] else 'locked'} in the collection."
                 
                 return f'Could not find {weapon} ({version}) in the collection.'
         
@@ -219,7 +219,7 @@ def unlockArmorCollection(armorType: str = '__menu_options__'):
                     if x['CollectionId'] == armorID:
                         x['CollectionUnlocked'] = not x['CollectionUnlocked']
                         writeSave(userData)
-                        return f'{armor} ({version}) has been {'unlocked' if x['CollectionUnlocked'] else 'locked'} in the collection.'
+                        return f"{armor} ({version}) has been {'unlocked' if x['CollectionUnlocked'] else 'locked'} in the collection."
                 
                 return f'Could not find {armor} ({version}) in the collection.'
         
