@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from lib.utilities import initCheck, handleMenu, loadSave
+from lib.utilities import initCheck, handleMenu
 from lib.account import ACCOUNT
 from lib.cfg import CFG
 from lib.profile import PROFILE
