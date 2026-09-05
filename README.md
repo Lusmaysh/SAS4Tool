@@ -1,11 +1,11 @@
 # SAS4Tool
 Simple SAS 4: Zombie Assault profile editor written in Python. (Windows Only)
 
-- Download latest here: [download](https://github.com/dstvx/SAS4Tool/releases/latest)
+- Download latest here: [download](https://github.com/Lusmaysh/SAS4Tool/releases/latest)
 - Install python: `winget install -e --id Python.Python.3.12`
 
 ## How to run
-- `git clone https://github.com/dstvx/SAS4Tool.git`
+- `git clone https://github.com/Lusmaysh/SAS4Tool.git`
 - `cd SAS4Tool`
 - `pip install -r requirements.txt`
 - `python main.py`
