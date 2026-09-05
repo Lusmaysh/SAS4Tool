@@ -1,4 +1,11 @@
-from lib.account import removeAds, setCredits, setNightmareTickets, setTokens, toggleCollectionRewards, unlockArmorCollection, unlockWeaponCollection
+from lib.account import (
+    _setNightmareTicketsLogic,
+    _setTokensLogic,
+    _setCreditsLogic,
+    _removeAdsLogic,
+    _unlockWeaponCollectionLogic,
+    _unlockArmorCollectionLogic,
+    _toggleCollectionRewardsLogic,)
 from lib.utilities import (
     loadSave,
     writeSave,
@@ -619,41 +626,998 @@ def characterBuild(buildName: str = '__menu_options__'):
                 {"ID": 10167, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 4, "AugmentSlots": 3, "InventoryIndex": 2, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
             ],
         },
-        'ZERBALLIN' : {
-            "Skills": {
-                3: [  # --- HEAVY ---
-                    {"SkillName": "fastreload", "SkillLevel": 3},
-                    {"SkillName": "fastmovement", "SkillLevel": 20},
-                    {"SkillName": "bodyarmour", "SkillLevel": 12},
-                    {"SkillName": "criticalshot", "SkillLevel": 25},
-                    {"SkillName": "holdtheline", "SkillLevel": 25},
-                    {"SkillName": "heavygear", "SkillLevel": 21},
-                    {"SkillName": "toughbody", "SkillLevel": 1},
-                    {"SkillName": "dieanotherday", "SkillLevel": 1}
-                ]
+        # ----------------------------------------------------
+        # HEAVY BUILDS
+        # ----------------------------------------------------
+        "Critbrecher Heavy": {
+        "Skills": {
+            3: [
+                {"SkillName": "holdtheline", "SkillLevel": 25},
+                {"SkillName": "heavygear", "SkillLevel": 23},
+                {"SkillName": "criticalshot", "SkillLevel": 25},
+                {"SkillName": "fastmovement", "SkillLevel": 22},
+                {"SkillName": "fastreload", "SkillLevel": 12},
+                {"SkillName": "dieanotherday", "SkillLevel": 1},
+            ]
+        },
+        "Weapons": [
+            {
+                "ID": 10066, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 4,
+                "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 3, "Augment3LVL": 12, "Augment4ID": 10, "Augment4LVL": 12,
             },
-            "Weapons": [
-                {
-                    "ID": 10066, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 4,
-                    "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10,
-                    "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
-                    "Augment3ID": 3, "Augment3LVL": 12, "Augment4ID": 11, "Augment4LVL": 12
-                },
-                {
-                    "ID": 211, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 4,
-                    "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10,
-                    "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
-                    "Augment3ID": 3, "Augment3LVL": 12, "Augment4ID": 5, "Augment4LVL": 12
-                }
-            ],
-            "Equipment": [
-                {"ID": 10130, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 3, "InventoryIndex": 3, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 23, "Augment1LVL": 12, "Augment2ID": 24, "Augment2LVL": 12, "Augment3ID": 17, "Augment3LVL": 12, "Equipped": True},
-                {"ID": 228, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 3, "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 13, "Augment1LVL": 12, "Augment2ID": 14, "Augment2LVL": 12, "Augment3ID": 17, "Augment3LVL": 12, "Equipped": True},
-                {"ID": 10135, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 3, "AugmentSlots": 3, "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 25, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
-                {"ID": 10199, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 5, "AugmentSlots": 3, "InventoryIndex": 4, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 15, "Augment2LVL": 12, "Augment3ID": 17, "Augment3LVL": 12, "Equipped": True},
-                {"ID": 241, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 4, "AugmentSlots": 3, "InventoryIndex": 2, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 19, "Augment3LVL": 12, "Equipped": True},
-            ],
-        }
+            {
+                "ID": 222, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 4,
+                "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 5, "Augment3LVL": 12, "Augment4ID": 3, "Augment4LVL": 12,
+            },
+        ],
+        "Equipment": [
+            {"ID": 10130, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 3, "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 24, "Augment1LVL": 12, "Augment2ID": 23, "Augment2LVL": 12, "Augment3ID": 20, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 228, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 3, "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 20, "Augment2LVL": 12, "Augment3ID": 14, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10201, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 3, "AugmentSlots": 3, "InventoryIndex": 2, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 25, "Augment1LVL": 12, "Augment2ID": 15, "Augment2LVL": 12, "Augment3ID": 13, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 239, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 4, "AugmentSlots": 3, "InventoryIndex": 3, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 22, "Augment2LVL": 12, "Augment3ID": 13, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10167, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 5, "AugmentSlots": 3, "InventoryIndex": 4, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+        ],
+    },
+    "HS2 - Five Balls Zerfallen": {
+        "Skills": {
+            3: [
+                {"SkillName": "holdtheline", "SkillLevel": 25},
+                {"SkillName": "heavygear", "SkillLevel": 21},
+                {"SkillName": "criticalshot", "SkillLevel": 25},
+                {"SkillName": "fastmovement", "SkillLevel": 21},
+                {"SkillName": "fastreload", "SkillLevel": 15},
+                {"SkillName": "dieanotherday", "SkillLevel": 1},
+            ]
+        },
+        "Weapons": [
+            {
+                "ID": 10066, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 4,
+                "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 3, "Augment3LVL": 12, "Augment4ID": 10, "Augment4LVL": 12,
+            },
+            {
+                "ID": 211, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 4,
+                "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 3, "Augment3LVL": 12, "Augment4ID": 5, "Augment4LVL": 12,
+            },
+        ],
+        "Equipment": [
+            {"ID": 10130, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 3, "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 24, "Augment1LVL": 12, "Augment2ID": 23, "Augment2LVL": 12, "Augment3ID": 20, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 238, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 3, "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 20, "Augment2LVL": 12, "Augment3ID": 14, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 240, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 3, "AugmentSlots": 3, "InventoryIndex": 2, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 25, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 239, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 4, "AugmentSlots": 3, "InventoryIndex": 3, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 22, "Augment2LVL": 12, "Augment3ID": 14, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 241, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 5, "AugmentSlots": 3, "InventoryIndex": 4, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+        ],
+    },
+    "Concussion Heavy": {
+        "Skills": {
+            3: [
+                {"SkillName": "holdtheline", "SkillLevel": 25},
+                {"SkillName": "concussion", "SkillLevel": 25},
+                {"SkillName": "criticalshot", "SkillLevel": 25},
+                {"SkillName": "fastmovement", "SkillLevel": 25},
+                {"SkillName": "fastreload", "SkillLevel": 4},
+                {"SkillName": "dieanotherday", "SkillLevel": 1},
+                {"SkillName": "heavygear", "SkillLevel": 1},
+                {"SkillName": "toughbody", "SkillLevel": 2},
+            ]
+        },
+        "Weapons": [
+            {
+                "ID": 10066, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 4,
+                "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 10, "Augment3LVL": 12, "Augment4ID": 8, "Augment4LVL": 12,
+            },
+            {
+                "ID": 222, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 4,
+                "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 11, "Augment3LVL": 12, "Augment4ID": 3, "Augment4LVL": 12,
+            },
+        ],
+        "Equipment": [
+            {"ID": 10130, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 3, "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 24, "Augment1LVL": 12, "Augment2ID": 23, "Augment2LVL": 12, "Augment3ID": 17, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 228, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 3, "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 14, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10135, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 3, "AugmentSlots": 3, "InventoryIndex": 2, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 25, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10199, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 4, "AugmentSlots": 3, "InventoryIndex": 3, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 22, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10167, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 5, "AugmentSlots": 3, "InventoryIndex": 4, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+        ],
+    },
+    "CHS2 - Concussion HS2": {
+        "Skills": {
+            3: [
+                {"SkillName": "holdtheline", "SkillLevel": 25},
+                {"SkillName": "concussion", "SkillLevel": 25},
+                {"SkillName": "criticalshot", "SkillLevel": 25},
+                {"SkillName": "fastmovement", "SkillLevel": 16},
+                {"SkillName": "fastreload", "SkillLevel": 15},
+                {"SkillName": "dieanotherday", "SkillLevel": 1},
+                {"SkillName": "heavygear", "SkillLevel": 1},
+            ]
+        },
+        "Weapons": [
+            {
+                "ID": 211, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 4,
+                "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 11, "Augment3LVL": 12, "Augment4ID": 3, "Augment4LVL": 12,
+            },
+            {
+                "ID": 10066, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 4,
+                "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 3, "Augment3LVL": 12, "Augment4ID": 10, "Augment4LVL": 12,
+            },
+        ],
+        "Equipment": [
+            {"ID": 10130, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 3, "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 24, "Augment1LVL": 12, "Augment2ID": 23, "Augment2LVL": 12, "Augment3ID": 17, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 238, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 3, "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 20, "Augment2LVL": 12, "Augment3ID": 13, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 240, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 3, "AugmentSlots": 3, "InventoryIndex": 2, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 13, "Augment1LVL": 12, "Augment2ID": 25, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 239, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 4, "AugmentSlots": 3, "InventoryIndex": 3, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 22, "Augment2LVL": 12, "Augment3ID": 13, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 241, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 5, "AugmentSlots": 3, "InventoryIndex": 4, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+        ],
+    },
+    "LMS Hypertank Heavy": {
+        "Skills": {
+            3: [
+                {"SkillName": "toughbody", "SkillLevel": 25},
+                {"SkillName": "fastmovement", "SkillLevel": 24},
+                {"SkillName": "toughness", "SkillLevel": 25},
+                {"SkillName": "bodyarmour", "SkillLevel": 24},
+                {"SkillName": "fastreload", "SkillLevel": 2},
+                {"SkillName": "holdtheline", "SkillLevel": 1},
+                {"SkillName": "dieanotherday", "SkillLevel": 1},
+                {"SkillName": "heavygear", "SkillLevel": 1},
+                {"SkillName": "concussion", "SkillLevel": 5},
+            ]
+        },
+        "Weapons": [
+            {
+                "ID": 10066, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 4,
+                "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 10, "Augment3LVL": 12, "Augment4ID": 8, "Augment4LVL": 12,
+            },
+            {
+                "ID": 222, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 4,
+                "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 11, "Augment3LVL": 12, "Augment4ID": 3, "Augment4LVL": 12,
+            },
+        ],
+        "Equipment": [
+            {"ID": 10195, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 3, "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 228, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 3, "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 14, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 220, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 3, "AugmentSlots": 3, "InventoryIndex": 2, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 25, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 219, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 4, "AugmentSlots": 3, "InventoryIndex": 3, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 17, "Augment2LVL": 12, "Augment3ID": 13, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 221, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 5, "AugmentSlots": 3, "InventoryIndex": 4, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+        ],
+    },
+    "HS1 – Classic Heavy": {
+        "Skills": {
+            3: [
+                {"SkillName": "fastreload", "SkillLevel": 4},
+                {"SkillName": "fastmovement", "SkillLevel": 25},
+                {"SkillName": "bodyarmour", "SkillLevel": 19},
+                {"SkillName": "criticalshot", "SkillLevel": 25},
+                {"SkillName": "holdtheline", "SkillLevel": 25},
+                {"SkillName": "toughbody", "SkillLevel": 1},
+                {"SkillName": "dieanotherday", "SkillLevel": 1},
+            ]
+        },
+        "Weapons": [
+            {
+                "ID": 10066, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 4,
+                "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 3, "Augment3LVL": 12, "Augment4ID": 8, "Augment4LVL": 12,
+            },
+            {
+                "ID": 10081, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 4,
+                "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 5, "Augment3LVL": 12, "Augment4ID": 3, "Augment4LVL": 12,
+            },
+        ],
+        "Equipment": [
+            {"ID": 10195, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 3, "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 24, "Augment1LVL": 12, "Augment2ID": 23, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10137, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 3, "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 20, "Augment2LVL": 12, "Augment3ID": 13, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10135, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 3, "AugmentSlots": 3, "InventoryIndex": 2, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 25, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 14, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 229, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 4, "AugmentSlots": 3, "InventoryIndex": 3, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 17, "Augment2LVL": 12, "Augment3ID": 14, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10167, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 5, "AugmentSlots": 3, "InventoryIndex": 4, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+        ],
+    },
+    "Crit Tank Heavy": {
+        "Skills": {
+            3: [
+                {"SkillName": "holdtheline", "SkillLevel": 25},
+                {"SkillName": "toughbody", "SkillLevel": 25},
+                {"SkillName": "criticalshot", "SkillLevel": 25},
+                {"SkillName": "bodyarmour", "SkillLevel": 13},
+                {"SkillName": "fastmovement", "SkillLevel": 14},
+                {"SkillName": "fastreload", "SkillLevel": 4},
+                {"SkillName": "dieanotherday", "SkillLevel": 1},
+                {"SkillName": "concussion", "SkillLevel": 1},
+            ]
+        },
+        "Weapons": [
+            {
+                "ID": 10066, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 4,
+                "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 3, "Augment3LVL": 12, "Augment4ID": 10, "Augment4LVL": 12,
+            },
+            {
+                "ID": 10081, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 4,
+                "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 5, "Augment3LVL": 12, "Augment4ID": 3, "Augment4LVL": 12,
+            },
+        ],
+        "Equipment": [
+            {"ID": 10130, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 3, "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 24, "Augment1LVL": 12, "Augment2ID": 23, "Augment2LVL": 12, "Augment3ID": 17, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 228, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 3, "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 14, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10135, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 3, "AugmentSlots": 3, "InventoryIndex": 2, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 13, "Augment1LVL": 12, "Augment2ID": 25, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10199, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 4, "AugmentSlots": 3, "InventoryIndex": 3, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 15, "Augment1LVL": 12, "Augment2ID": 22, "Augment2LVL": 12, "Augment3ID": 17, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10167, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 5, "AugmentSlots": 3, "InventoryIndex": 4, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 19, "Augment3LVL": 12, "Equipped": True},
+        ],
+    },
+    "Max Damage Critbrecher": {
+        "Skills": {
+            3: [
+                {"SkillName": "holdtheline", "SkillLevel": 25},
+                {"SkillName": "criticalshot", "SkillLevel": 25},
+                {"SkillName": "fastmovement", "SkillLevel": 25},
+                {"SkillName": "fastreload", "SkillLevel": 18},
+                {"SkillName": "heavygear", "SkillLevel": 14},
+                {"SkillName": "dieanotherday", "SkillLevel": 1},
+            ]
+        },
+        "Weapons": [
+            {
+                "ID": 10066, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 4,
+                "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 3, "Augment3LVL": 12, "Augment4ID": 10, "Augment4LVL": 12,
+            },
+            {
+                "ID": 222, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 4,
+                "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 5, "Augment3LVL": 12, "Augment4ID": 3, "Augment4LVL": 12,
+            },
+        ],
+        "Equipment": [
+            {"ID": 10130, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 3, "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 24, "Augment1LVL": 12, "Augment2ID": 23, "Augment2LVL": 12, "Augment3ID": 20, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 238, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 3, "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 20, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 230, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 3, "AugmentSlots": 3, "InventoryIndex": 2, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 25, "Augment1LVL": 12, "Augment2ID": 14, "Augment2LVL": 12, "Augment3ID": 13, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 239, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 4, "AugmentSlots": 3, "InventoryIndex": 3, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 22, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 241, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 5, "AugmentSlots": 3, "InventoryIndex": 4, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+        ],
+    },
+    "Omega Concussion Heavy": {
+        "Skills": {
+            3: [
+                {"SkillName": "holdtheline", "SkillLevel": 25},
+                {"SkillName": "concussion", "SkillLevel": 25},
+                {"SkillName": "criticalshot", "SkillLevel": 25},
+                {"SkillName": "fastreload", "SkillLevel": 18},
+                {"SkillName": "fastmovement", "SkillLevel": 13},
+                {"SkillName": "heavygear", "SkillLevel": 1},
+                {"SkillName": "dieanotherday", "SkillLevel": 1},
+            ]
+        },
+        "Weapons": [
+            {
+                "ID": 10066, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 4,
+                "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 3, "Augment3LVL": 12, "Augment4ID": 10, "Augment4LVL": 12,
+            },
+            {
+                "ID": 222, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 4,
+                "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 11, "Augment3LVL": 12, "Augment4ID": 3, "Augment4LVL": 12,
+            },
+        ],
+        "Equipment": [
+            {"ID": 10130, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 3, "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 24, "Augment1LVL": 12, "Augment2ID": 23, "Augment2LVL": 12, "Augment3ID": 20, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 238, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 3, "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 20, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 230, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 3, "AugmentSlots": 3, "InventoryIndex": 2, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 25, "Augment1LVL": 12, "Augment2ID": 14, "Augment2LVL": 12, "Augment3ID": 13, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 239, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 4, "AugmentSlots": 3, "InventoryIndex": 3, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 22, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 241, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 5, "AugmentSlots": 3, "InventoryIndex": 4, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+        ],
+    },
+    "Critfallen": {
+        "Skills": {
+            3: [
+                {"SkillName": "holdtheline", "SkillLevel": 25},
+                {"SkillName": "heavygear", "SkillLevel": 21},
+                {"SkillName": "criticalshot", "SkillLevel": 25},
+                {"SkillName": "fastmovement", "SkillLevel": 20},
+                {"SkillName": "bodyarmour", "SkillLevel": 12},
+                {"SkillName": "fastreload", "SkillLevel": 3},
+                {"SkillName": "toughbody", "SkillLevel": 1},
+                {"SkillName": "dieanotherday", "SkillLevel": 1},
+            ]
+        },
+        "Weapons": [
+            {
+                "ID": 10066, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 4,
+                "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 3, "Augment3LVL": 12, "Augment4ID": 10, "Augment4LVL": 12,
+            },
+            {
+                "ID": 211, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 4,
+                "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 3, "Augment3LVL": 12, "Augment4ID": 5, "Augment4LVL": 12,
+            },
+        ],
+        "Equipment": [
+            {"ID": 10130, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 3, "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 24, "Augment1LVL": 12, "Augment2ID": 23, "Augment2LVL": 12, "Augment3ID": 17, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 228, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 3, "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 14, "Augment2LVL": 12, "Augment3ID": 13, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10135, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 3, "AugmentSlots": 3, "InventoryIndex": 2, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 13, "Augment1LVL": 12, "Augment2ID": 25, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10199, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 4, "AugmentSlots": 3, "InventoryIndex": 3, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 15, "Augment2LVL": 12, "Augment3ID": 17, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 241, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 5, "AugmentSlots": 3, "InventoryIndex": 4, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 19, "Augment3LVL": 12, "Equipped": True},
+        ],
+    },
+
+    # ----------------------------------------------------
+    # ASSAULT BUILDS
+    # ----------------------------------------------------
+    "Race Modded Crit Assault": {
+        "Skills": {
+            2: [
+                {"SkillName": "adrenaline", "SkillLevel": 25},
+                {"SkillName": "killingspree", "SkillLevel": 25},
+                {"SkillName": "deadlyforce", "SkillLevel": 25},
+                {"SkillName": "criticalshot", "SkillLevel": 25},
+                {"SkillName": "fastmovement", "SkillLevel": 7},
+                {"SkillName": "stimshot", "SkillLevel": 1},
+            ]
+        },
+        "Weapons": [
+            {
+                "ID": 10068, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 4,
+                "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 9, "Augment3LVL": 12, "Augment4ID": 10, "Augment4LVL": 12,
+            },
+            {
+                "ID": 10081, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 4,
+                "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 9, "Augment3LVL": 12, "Augment4ID": 5, "Augment4LVL": 12,
+            },
+        ],
+        "Equipment": [
+            {"ID": 227, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 3, "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 24, "Augment1LVL": 12, "Augment2ID": 23, "Augment2LVL": 12, "Augment3ID": 17, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10137, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 3, "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 230, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 3, "AugmentSlots": 3, "InventoryIndex": 2, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 25, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 229, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 4, "AugmentSlots": 3, "InventoryIndex": 3, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 22, "Augment2LVL": 12, "Augment3ID": 14, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10167, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 5, "AugmentSlots": 3, "InventoryIndex": 4, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+        ],
+    },
+    "Saultbrecher": {
+        "Skills": {
+            2: [
+                {"SkillName": "adrenaline", "SkillLevel": 25},
+                {"SkillName": "killingspree", "SkillLevel": 25},
+                {"SkillName": "deadlyforce", "SkillLevel": 25},
+                {"SkillName": "fastreload", "SkillLevel": 12},
+                {"SkillName": "criticalshot", "SkillLevel": 10},
+                {"SkillName": "stimshot", "SkillLevel": 1},
+                {"SkillName": "fastmovement", "SkillLevel": 10},
+            ]
+        },
+        "Weapons": [
+            {
+                "ID": 10068, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 4,
+                "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 3, "Augment3LVL": 12, "Augment4ID": 10, "Augment4LVL": 12,
+            },
+            {
+                "ID": 222, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 4,
+                "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 11, "Augment3LVL": 12, "Augment4ID": 3, "Augment4LVL": 12,
+            },
+        ],
+        "Equipment": [
+            {"ID": 10130, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 3, "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 24, "Augment1LVL": 12, "Augment2ID": 23, "Augment2LVL": 12, "Augment3ID": 20, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 228, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 3, "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 20, "Augment2LVL": 12, "Augment3ID": 14, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10201, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 3, "AugmentSlots": 3, "InventoryIndex": 2, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 25, "Augment1LVL": 12, "Augment2ID": 15, "Augment2LVL": 12, "Augment3ID": 13, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 239, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 4, "AugmentSlots": 3, "InventoryIndex": 3, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 22, "Augment2LVL": 12, "Augment3ID": 13, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10167, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 5, "AugmentSlots": 3, "InventoryIndex": 4, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+        ],
+    },
+    "Max Damage Assault": {
+        "Skills": {
+            2: [
+                {"SkillName": "adrenaline", "SkillLevel": 25},
+                {"SkillName": "killingspree", "SkillLevel": 25},
+                {"SkillName": "criticalshot", "SkillLevel": 25},
+                {"SkillName": "deadlyforce", "SkillLevel": 25},
+                {"SkillName": "fastreload", "SkillLevel": 8},
+            ]
+        },
+        "Weapons": [
+            {
+                "ID": 10068, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 4,
+                "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 3, "Augment3LVL": 12, "Augment4ID": 10, "Augment4LVL": 12,
+            },
+            {
+                "ID": 211, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 4,
+                "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 3, "Augment3LVL": 12, "Augment4ID": 11, "Augment4LVL": 12,
+            },
+        ],
+        "Equipment": [
+            {"ID": 10130, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 3, "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 24, "Augment1LVL": 12, "Augment2ID": 23, "Augment2LVL": 12, "Augment3ID": 20, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 238, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 3, "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 20, "Augment2LVL": 12, "Augment3ID": 13, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 240, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 3, "AugmentSlots": 3, "InventoryIndex": 2, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 25, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 239, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 4, "AugmentSlots": 3, "InventoryIndex": 3, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 22, "Augment2LVL": 12, "Augment3ID": 13, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 241, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 5, "AugmentSlots": 3, "InventoryIndex": 4, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+        ],
+    },
+    "Max Speed Assault": {
+        "Skills": {
+            2: [
+                {"SkillName": "adrenaline", "SkillLevel": 25},
+                {"SkillName": "killingspree", "SkillLevel": 25},
+                {"SkillName": "fastmovement", "SkillLevel": 25},
+                {"SkillName": "criticalshot", "SkillLevel": 25},
+                {"SkillName": "fastreload", "SkillLevel": 7},
+                {"SkillName": "assaultteam", "SkillLevel": 1},
+            ]
+        },
+        "Weapons": [
+            {
+                "ID": 10068, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 4,
+                "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 3, "Augment3LVL": 12, "Augment4ID": 8, "Augment4LVL": 12,
+            },
+            {
+                "ID": 10081, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 4,
+                "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 5, "Augment3LVL": 12, "Augment4ID": 8, "Augment4LVL": 12,
+            },
+        ],
+        "Equipment": [
+            {"ID": 10207, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 3, "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 24, "Augment1LVL": 12, "Augment2ID": 23, "Augment2LVL": 12, "Augment3ID": 17, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10137, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 3, "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 225, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 3, "AugmentSlots": 3, "InventoryIndex": 2, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 25, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 229, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 4, "AugmentSlots": 3, "InventoryIndex": 3, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 22, "Augment2LVL": 12, "Augment3ID": 14, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10167, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 5, "AugmentSlots": 3, "InventoryIndex": 4, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+        ],
+    },
+    "Virus Samples Assault": {
+        "Skills": {
+            2: [
+                {"SkillName": "adrenaline", "SkillLevel": 25},
+                {"SkillName": "killingspree", "SkillLevel": 25},
+                {"SkillName": "fastmovement", "SkillLevel": 25},
+                {"SkillName": "fastreload", "SkillLevel": 12},
+                {"SkillName": "bodyarmour", "SkillLevel": 20},
+                {"SkillName": "stimshot", "SkillLevel": 1},
+            ]
+        },
+        "Weapons": [
+            {
+                "ID": 10177, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 4,
+                "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 11, "Augment3LVL": 12, "Augment4ID": 10, "Augment4LVL": 12,
+            },
+            {
+                "ID": 211, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 4,
+                "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 11, "Augment3LVL": 12, "Augment4ID": 3, "Augment4LVL": 12,
+            },
+        ],
+        "Equipment": [
+            {"ID": 10207, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 3, "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 24, "Augment1LVL": 12, "Augment2ID": 17, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10137, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 3, "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 240, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 3, "AugmentSlots": 3, "InventoryIndex": 2, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 25, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 229, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 4, "AugmentSlots": 3, "InventoryIndex": 3, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 22, "Augment2LVL": 12, "Augment3ID": 14, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10167, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 5, "AugmentSlots": 3, "InventoryIndex": 4, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 14, "Augment3LVL": 12, "Equipped": True},
+        ],
+    },
+    "AS1 – Classic Assault": {
+        "Skills": {
+            2: [
+                {"SkillName": "adrenaline", "SkillLevel": 25},
+                {"SkillName": "killingspree", "SkillLevel": 25},
+                {"SkillName": "fastmovement", "SkillLevel": 25},
+                {"SkillName": "bodyarmour", "SkillLevel": 19},
+                {"SkillName": "fastreload", "SkillLevel": 4},
+                {"SkillName": "stimshot", "SkillLevel": 1},
+                {"SkillName": "criticalshot", "SkillLevel": 1},
+            ]
+        },
+        "Weapons": [
+            {
+                "ID": 10068, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 4,
+                "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 10, "Augment3LVL": 12, "Augment4ID": 3, "Augment4LVL": 12,
+            },
+            {
+                "ID": 10066, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 4,
+                "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 3, "Augment3LVL": 12, "Augment4ID": 8, "Augment4LVL": 12,
+            },
+        ],
+        "Equipment": [
+            {"ID": 10195, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 3, "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 24, "Augment1LVL": 12, "Augment2ID": 17, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10137, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 3, "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 20, "Augment1LVL": 12, "Augment2ID": 17, "Augment2LVL": 12, "Augment3ID": 13, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10135, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 3, "AugmentSlots": 3, "InventoryIndex": 2, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 25, "Augment1LVL": 12, "Augment2ID": 14, "Augment2LVL": 12, "Augment3ID": 13, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 229, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 4, "AugmentSlots": 3, "InventoryIndex": 3, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 22, "Augment2LVL": 12, "Augment3ID": 14, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10167, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 5, "AugmentSlots": 3, "InventoryIndex": 4, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+        ],
+    },
+    "Weapon Enjoyer Assault (Zerfallen 4 Clip, Damage Focused)": {
+        "Skills": {
+            2: [
+                {"SkillName": "adrenaline", "SkillLevel": 25},
+                {"SkillName": "killingspree", "SkillLevel": 24},
+                {"SkillName": "deadlyforce", "SkillLevel": 9},
+                {"SkillName": "stimshot", "SkillLevel": 1},
+                {"SkillName": "criticalshot", "SkillLevel": 25},
+                {"SkillName": "fastreload", "SkillLevel": 10},
+                {"SkillName": "fastmovement", "SkillLevel": 6},
+            ]
+        },
+        "Weapons": [
+            {
+                "ID": 10066, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 4,
+                "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 3, "Augment3LVL": 12, "Augment4ID": 10, "Augment4LVL": 12,
+            },
+            {
+                "ID": 211, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 4,
+                "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 3, "Augment3LVL": 12, "Augment4ID": 11, "Augment4LVL": 12,
+            },
+        ],
+        "Equipment": [
+            {"ID": 10130, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 3, "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 24, "Augment1LVL": 12, "Augment2ID": 23, "Augment2LVL": 12, "Augment3ID": 17, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10137, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 3, "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 20, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 225, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 3, "AugmentSlots": 3, "InventoryIndex": 2, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 25, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 229, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 4, "AugmentSlots": 3, "InventoryIndex": 3, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 22, "Augment2LVL": 12, "Augment3ID": 14, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 241, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 5, "AugmentSlots": 3, "InventoryIndex": 4, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+        ],
+    },
+    "Weapon Enjoyer Assault (Zerfallen 4 Clip, Critical Focused)": {
+        "Skills": {
+            2: [
+                {"SkillName": "adrenaline", "SkillLevel": 25},
+                {"SkillName": "killingspree", "SkillLevel": 24},
+                {"SkillName": "deadlyforce", "SkillLevel": 9},
+                {"SkillName": "stimshot", "SkillLevel": 1},
+                {"SkillName": "criticalshot", "SkillLevel": 25},
+                {"SkillName": "fastreload", "SkillLevel": 10},
+                {"SkillName": "fastmovement", "SkillLevel": 6},
+            ]
+        },
+        "Weapons": [
+            {
+                "ID": 10066, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 4,
+                "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 3, "Augment3LVL": 12, "Augment4ID": 10, "Augment4LVL": 12,
+            },
+            {
+                "ID": 211, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 4,
+                "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 3, "Augment3LVL": 12, "Augment4ID": 11, "Augment4LVL": 12,
+            },
+        ],
+        "Equipment": [
+            {"ID": 227, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 3, "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 24, "Augment1LVL": 12, "Augment2ID": 23, "Augment2LVL": 12, "Augment3ID": 17, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10137, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 3, "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 20, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10135, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 3, "AugmentSlots": 3, "InventoryIndex": 2, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 25, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 229, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 4, "AugmentSlots": 3, "InventoryIndex": 3, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 22, "Augment2LVL": 12, "Augment3ID": 14, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 241, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 5, "AugmentSlots": 3, "InventoryIndex": 4, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+        ],
+    },
+    "Weapon Enjoyer Assault (Damage Focused)": {
+        "Skills": {
+            2: [
+                {"SkillName": "adrenaline", "SkillLevel": 25},
+                {"SkillName": "killingspree", "SkillLevel": 24},
+                {"SkillName": "deadlyforce", "SkillLevel": 9},
+                {"SkillName": "stimshot", "SkillLevel": 1},
+                {"SkillName": "criticalshot", "SkillLevel": 25},
+                {"SkillName": "fastreload", "SkillLevel": 10},
+                {"SkillName": "fastmovement", "SkillLevel": 6},
+            ]
+        },
+        "Weapons": [
+            {
+                "ID": 10066, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 4,
+                "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 3, "Augment3LVL": 12, "Augment4ID": 10, "Augment4LVL": 12,
+            },
+            {
+                "ID": 10081, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 4,
+                "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 5, "Augment3LVL": 12, "Augment4ID": 3, "Augment4LVL": 12,
+            },
+        ],
+        "Equipment": [
+            {"ID": 10130, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 3, "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 24, "Augment1LVL": 12, "Augment2ID": 23, "Augment2LVL": 12, "Augment3ID": 17, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10137, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 3, "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 20, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 225, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 3, "AugmentSlots": 3, "InventoryIndex": 2, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 25, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 229, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 4, "AugmentSlots": 3, "InventoryIndex": 3, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 22, "Augment2LVL": 12, "Augment3ID": 14, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10167, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 5, "AugmentSlots": 3, "InventoryIndex": 4, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+        ],
+    },
+    "Weapon Enjoyer Assault (Critical Focused)": {
+        "Skills": {
+            2: [
+                {"SkillName": "adrenaline", "SkillLevel": 25},
+                {"SkillName": "killingspree", "SkillLevel": 24},
+                {"SkillName": "deadlyforce", "SkillLevel": 9},
+                {"SkillName": "stimshot", "SkillLevel": 1},
+                {"SkillName": "criticalshot", "SkillLevel": 25},
+                {"SkillName": "fastreload", "SkillLevel": 10},
+                {"SkillName": "fastmovement", "SkillLevel": 6},
+            ]
+        },
+        "Weapons": [
+            {
+                "ID": 10066, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 4,
+                "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 3, "Augment3LVL": 12, "Augment4ID": 10, "Augment4LVL": 12,
+            },
+            {
+                "ID": 10081, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 4,
+                "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 5, "Augment3LVL": 12, "Augment4ID": 3, "Augment4LVL": 12,
+            },
+        ],
+        "Equipment": [
+            {"ID": 227, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 3, "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 24, "Augment1LVL": 12, "Augment2ID": 23, "Augment2LVL": 12, "Augment3ID": 17, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10137, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 3, "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 20, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 225, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 3, "AugmentSlots": 3, "InventoryIndex": 2, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 25, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 229, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 4, "AugmentSlots": 3, "InventoryIndex": 3, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 22, "Augment2LVL": 12, "Augment3ID": 14, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10167, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 5, "AugmentSlots": 3, "InventoryIndex": 4, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+        ],
+    },
+    "Weapon Enjoyer Assault (Movement Speed and DPS Focused)": {
+        "Skills": {
+            2: [
+                {"SkillName": "adrenaline", "SkillLevel": 25},
+                {"SkillName": "killingspree", "SkillLevel": 24},
+                {"SkillName": "deadlyforce", "SkillLevel": 9},
+                {"SkillName": "stimshot", "SkillLevel": 1},
+                {"SkillName": "criticalshot", "SkillLevel": 25},
+                {"SkillName": "fastreload", "SkillLevel": 10},
+                {"SkillName": "fastmovement", "SkillLevel": 6},
+            ]
+        },
+        "Weapons": [
+            {
+                "ID": 10066, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 4,
+                "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 3, "Augment3LVL": 12, "Augment4ID": 10, "Augment4LVL": 12,
+            },
+            {
+                "ID": 10081, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 4,
+                "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 5, "Augment3LVL": 12, "Augment4ID": 3, "Augment4LVL": 12,
+            },
+        ],
+        "Equipment": [
+            {"ID": 10207, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 3, "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 24, "Augment1LVL": 12, "Augment2ID": 23, "Augment2LVL": 12, "Augment3ID": 17, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10137, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 3, "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 20, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 225, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 3, "AugmentSlots": 3, "InventoryIndex": 2, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 25, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 229, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 4, "AugmentSlots": 3, "InventoryIndex": 3, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 22, "Augment2LVL": 12, "Augment3ID": 14, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10167, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 5, "AugmentSlots": 3, "InventoryIndex": 4, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+        ],
+    },
+    "Weapon Enjoyer Assault (Zerfallen 5 Clipsize)": {
+        "Skills": {
+            2: [
+                {"SkillName": "adrenaline", "SkillLevel": 25},
+                {"SkillName": "killingspree", "SkillLevel": 24},
+                {"SkillName": "deadlyforce", "SkillLevel": 9},
+                {"SkillName": "stimshot", "SkillLevel": 1},
+                {"SkillName": "criticalshot", "SkillLevel": 25},
+                {"SkillName": "fastreload", "SkillLevel": 10},
+                {"SkillName": "fastmovement", "SkillLevel": 6},
+            ]
+        },
+        "Weapons": [
+            {
+                "ID": 10066, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 4,
+                "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 3, "Augment3LVL": 12, "Augment4ID": 10, "Augment4LVL": 12,
+            },
+            {
+                "ID": 211, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 4,
+                "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 3, "Augment3LVL": 12, "Augment4ID": 11, "Augment4LVL": 12,
+            },
+        ],
+        "Equipment": [
+            {"ID": 10195, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 3, "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 24, "Augment1LVL": 12, "Augment2ID": 23, "Augment2LVL": 12, "Augment3ID": 17, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 238, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 3, "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 13, "Augment1LVL": 12, "Augment2ID": 20, "Augment2LVL": 12, "Augment3ID": 14, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 240, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 3, "AugmentSlots": 3, "InventoryIndex": 2, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 25, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 239, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 4, "AugmentSlots": 3, "InventoryIndex": 3, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 22, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 241, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 5, "AugmentSlots": 3, "InventoryIndex": 4, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+        ],
+    },
+
+    # ----------------------------------------------------
+    # MEDIC BUILDS
+    # ----------------------------------------------------
+    "Hospital Medic": {
+        "Skills": {
+            1: [
+                {"SkillName": "revive", "SkillLevel": 25},
+                {"SkillName": "finalfarewell", "SkillLevel": 25},
+                {"SkillName": "recoverytime", "SkillLevel": 25},
+                {"SkillName": "medkit", "SkillLevel": 22},
+                {"SkillName": "fastreload", "SkillLevel": 3},
+            ]
+        },
+        "Weapons": [
+            {
+                "ID": 211, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 4,
+                "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 3, "Augment3LVL": 12, "Augment4ID": 5, "Augment4LVL": 12,
+            },
+            {
+                "ID": 228, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 4,
+                "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 4, "Augment3LVL": 12, "Augment4ID": 8, "Augment4LVL": 12,
+            },
+        ],
+        "Equipment": [
+            {"ID": 195, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 3, "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 24, "Augment1LVL": 12, "Augment2ID": 20, "Augment2LVL": 12, "Augment3ID": 19, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 137, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 3, "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 20, "Augment1LVL": 12, "Augment2ID": 16, "Augment2LVL": 12, "Augment3ID": 17, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 135, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 3, "AugmentSlots": 3, "InventoryIndex": 2, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 25, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 211, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 4, "AugmentSlots": 3, "InventoryIndex": 3, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 17, "Augment2LVL": 12, "Augment3ID": 13, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 241, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 5, "AugmentSlots": 3, "InventoryIndex": 4, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 19, "Augment2LVL": 12, "Augment3ID": 13, "Augment3LVL": 12, "Equipped": True},
+        ],
+    },
+    "Terminals Medic": {
+        "Skills": {
+            1: [
+                {"SkillName": "criticalshot", "SkillLevel": 25},
+                {"SkillName": "fastmovement", "SkillLevel": 25},
+                {"SkillName": "medkit", "SkillLevel": 25},
+                {"SkillName": "bodyarmour", "SkillLevel": 20},
+                {"SkillName": "energyregen", "SkillLevel": 12},
+                {"SkillName": "finalfarewell", "SkillLevel": 1},
+            ]
+        },
+        "Weapons": [
+            {
+                "ID": 10068, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 4,
+                "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 10, "Augment3LVL": 12, "Augment4ID": 9, "Augment4LVL": 12,
+            },
+            {
+                "ID": 10066, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 4,
+                "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 10, "Augment3LVL": 12, "Augment4ID": 9, "Augment4LVL": 12,
+            },
+        ],
+        "Equipment": [
+            {"ID": 227, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 3, "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 24, "Augment1LVL": 12, "Augment2ID": 23, "Augment2LVL": 12, "Augment3ID": 19, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10137, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 3, "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 13, "Augment1LVL": 12, "Augment2ID": 15, "Augment2LVL": 12, "Augment3ID": 20, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 230, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 3, "AugmentSlots": 3, "InventoryIndex": 2, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 25, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 229, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 4, "AugmentSlots": 3, "InventoryIndex": 3, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 15, "Augment2LVL": 12, "Augment3ID": 14, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10167, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 5, "AugmentSlots": 3, "InventoryIndex": 4, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 19, "Augment3LVL": 12, "Equipped": True},
+        ],
+    },
+    "Tank Medic for LMS": {
+        "Skills": {
+            1: [
+                {"SkillName": "fastmovement", "SkillLevel": 25},
+                {"SkillName": "toughness", "SkillLevel": 25},
+                {"SkillName": "medkit", "SkillLevel": 25},
+                {"SkillName": "bodyarmour", "SkillLevel": 21},
+                {"SkillName": "energyregen", "SkillLevel": 12},
+            ]
+        },
+        "Weapons": [
+            {
+                "ID": 10066, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 4,
+                "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 9, "Augment3LVL": 12, "Augment4ID": 10, "Augment4LVL": 12,
+            },
+            {
+                "ID": 227, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 4,
+                "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 2, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 9, "Augment3LVL": 12, "Augment4ID": 11, "Augment4LVL": 12,
+            },
+        ],
+        "Equipment": [
+            {"ID": 217, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 3, "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 13, "Augment1LVL": 12, "Augment2ID": 17, "Augment2LVL": 12, "Augment3ID": 19, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 218, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 3, "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 14, "Augment2LVL": 12, "Augment3ID": 13, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 220, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 3, "AugmentSlots": 3, "InventoryIndex": 2, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 25, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10199, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 4, "AugmentSlots": 3, "InventoryIndex": 3, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 17, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10167, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 5, "AugmentSlots": 3, "InventoryIndex": 4, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 19, "Augment2LVL": 12, "Augment3ID": 13, "Augment3LVL": 12, "Equipped": True},
+        ],
+    },
+    "Hypertank Medic for LMS": {
+        "Skills": {
+            1: [
+                {"SkillName": "medkit", "SkillLevel": 25},
+                {"SkillName": "fastmovement", "SkillLevel": 25},
+                {"SkillName": "toughness", "SkillLevel": 25},
+                {"SkillName": "bodyarmour", "SkillLevel": 24},
+                {"SkillName": "fastreload", "SkillLevel": 2},
+                {"SkillName": "energyregen", "SkillLevel": 7},
+            ]
+        },
+        "Weapons": [
+            {
+                "ID": 10066, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 4,
+                "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 3, "Augment3LVL": 12, "Augment4ID": 8, "Augment4LVL": 12,
+            },
+            {
+                "ID": 222, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 4,
+                "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 11, "Augment3LVL": 12, "Augment4ID": 3, "Augment4LVL": 12,
+            },
+        ],
+        "Equipment": [
+            {"ID": 10195, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 3, "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 228, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 3, "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 14, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 220, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 3, "AugmentSlots": 3, "InventoryIndex": 2, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 25, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 219, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 4, "AugmentSlots": 3, "InventoryIndex": 3, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 17, "Augment2LVL": 12, "Augment3ID": 13, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 221, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 5, "AugmentSlots": 3, "InventoryIndex": 4, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 19, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+        ],
+    },
+    "MS2 – Blue Assault": {
+        "Skills": {
+            1: [
+                {"SkillName": "medkit", "SkillLevel": 4},
+                {"SkillName": "fastmovement", "SkillLevel": 25},
+                {"SkillName": "criticalshot", "SkillLevel": 25},
+                {"SkillName": "fastreload", "SkillLevel": 21},
+                {"SkillName": "bodyarmour", "SkillLevel": 25},
+            ]
+        },
+        "Weapons": [
+            {
+                "ID": 10066, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 4,
+                "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 3, "Augment3LVL": 12, "Augment4ID": 8, "Augment4LVL": 12,
+            },
+            {
+                "ID": 10081, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 4,
+                "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 5, "Augment3LVL": 12, "Augment4ID": 3, "Augment4LVL": 12,
+            },
+        ],
+        "Equipment": [
+            {"ID": 227, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 3, "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 24, "Augment1LVL": 12, "Augment2ID": 23, "Augment2LVL": 12, "Augment3ID": 17, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10137, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 3, "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 20, "Augment2LVL": 12, "Augment3ID": 13, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 230, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 3, "AugmentSlots": 3, "InventoryIndex": 2, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 25, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 14, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10199, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 4, "AugmentSlots": 3, "InventoryIndex": 3, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 17, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10167, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 5, "AugmentSlots": 3, "InventoryIndex": 4, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 14, "Augment3LVL": 12, "Equipped": True},
+        ],
+    },
+    "MS2+ – Race Modded MS2": {
+        "Skills": {
+            1: [
+                {"SkillName": "medkit", "SkillLevel": 25},
+                {"SkillName": "fastmovement", "SkillLevel": 25},
+                {"SkillName": "bodyarmour", "SkillLevel": 25},
+                {"SkillName": "criticalshot", "SkillLevel": 25},
+            ]
+        },
+        "Weapons": [
+            {
+                "ID": 10066, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 4,
+                "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 9, "Augment3LVL": 12, "Augment4ID": 8, "Augment4LVL": 12,
+            },
+            {
+                "ID": 10081, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 4,
+                "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 5, "Augment3LVL": 12, "Augment4ID": 9, "Augment4LVL": 12,
+            },
+        ],
+        "Equipment": [
+            {"ID": 227, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 3, "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 24, "Augment1LVL": 12, "Augment2ID": 23, "Augment2LVL": 12, "Augment3ID": 19, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10137, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 3, "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 230, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 3, "AugmentSlots": 3, "InventoryIndex": 2, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 14, "Augment1LVL": 12, "Augment2ID": 25, "Augment2LVL": 12, "Augment3ID": 13, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 229, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 4, "AugmentSlots": 3, "InventoryIndex": 3, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 22, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10167, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 5, "AugmentSlots": 3, "InventoryIndex": 4, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+        ],
+    },
+    "Hexafecta Medic": {
+        "Skills": {
+            1: [
+                {"SkillName": "fastmovement", "SkillLevel": 25},
+                {"SkillName": "criticalshot", "SkillLevel": 25},
+                {"SkillName": "zombieantidote", "SkillLevel": 25},
+                {"SkillName": "fastreload", "SkillLevel": 12},
+                {"SkillName": "medkit", "SkillLevel": 13},
+            ]
+        },
+        "Weapons": [
+            {
+                "ID": 149, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 3,
+                "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 3, "Augment3LVL": 12, "Augment4ID": 0, "Augment4LVL": 0,
+            },
+            {
+                "ID": 10081, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 4,
+                "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 5, "Augment3LVL": 12, "Augment4ID": 3, "Augment4LVL": 12,
+            },
+        ],
+        "Equipment": [
+            {"ID": 130, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 2, "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 24, "Augment1LVL": 12, "Augment2ID": 23, "Augment2LVL": 12, "Augment3ID": 0, "Augment3LVL": 0, "Equipped": True},
+            {"ID": 137, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 2, "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 18, "Augment2LVL": 12, "Augment3ID": 0, "Augment3LVL": 0, "Equipped": True},
+            {"ID": 135, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 3, "AugmentSlots": 2, "InventoryIndex": 2, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 25, "Augment1LVL": 12, "Augment2ID": 15, "Augment2LVL": 12, "Augment3ID": 0, "Augment3LVL": 0, "Equipped": True},
+            {"ID": 171, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 4, "AugmentSlots": 2, "InventoryIndex": 3, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 17, "Augment2LVL": 12, "Augment3ID": 0, "Augment3LVL": 0, "Equipped": True},
+            {"ID": 167, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 5, "AugmentSlots": 2, "InventoryIndex": 4, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 19, "Augment2LVL": 12, "Augment3ID": 0, "Augment3LVL": 0, "Equipped": True},
+        ],
+    },
+    "Antiboost Medic": {
+        "Skills": {
+            1: [
+                {"SkillName": "medkit", "SkillLevel": 1},
+                {"SkillName": "revive", "SkillLevel": 21},
+                {"SkillName": "finalfarewell", "SkillLevel": 1},
+            ]
+        },
+        "Weapons": [],
+        "Equipment": [],
+    },
     }
 
     userData = loadSave()
@@ -674,28 +1638,57 @@ def characterBuild(buildName: str = '__menu_options__'):
     writeSave(userData)
     return log
 
+CLASS_MAP = {
+    'Medic': 1,
+    'Assault': 2,
+    'Heavy': 3,
+}
+
+@menuOptions
+def setCurrentProfileClass(className: str = '__menu_options__'):
+    if className == '__menu_options__':
+        return list(CLASS_MAP.keys())
+    
+    userData = loadSave()
+    if userData is None:
+        return "[FAILED] Failed to load save file."
+    profile = loadConfig()['current_profile']
+    
+    log = _setCurrentProfileClassLogic(userData, profile, className)
+    writeSave(userData)
+    return log
+
+def _setCurrentProfileClassLogic(userData, profile, className):
+    class_id = CLASS_MAP.get(className)
+    if class_id is not None:
+        skills = userData['Inventory'][profile]['Skills']
+        skills['Class'] = class_id
+        skills['SkillsArray'] = []
+        return f'Class set to {className}'
+    return "Class not found."
+
 # ==========================================
 # 4. CUSTOM STATS (MAIN OPTIMIZATION)
 # ==========================================
 
 @directFunction
-def setCustomStats():
+def setCurrentProfileStats():
     amount = 2 ** 31 - 2 ** 20
     logs = []
-
-    logs.append(setNightmareTickets(amount))
-    logs.append(setTokens(amount))
-    logs.append(setCredits('ALL', amount))
-    logs.append(removeAds(True))
-    logs.append(unlockWeaponCollection('ALL'))
-    logs.append(unlockArmorCollection('ALL'))
-    logs.append(toggleCollectionRewards.__wrapped__('Weapons')['Toggle All']('Toggle All', False))
-    logs.append(toggleCollectionRewards.__wrapped__('Armor')['Toggle All']('Toggle All', False))
-
     userData = loadSave()
     if userData is None:
         return "[FAILED] Failed to load save file."
     profile = loadConfig()['current_profile']
+
+    logs.append(_setNightmareTicketsLogic(userData, amount))
+    logs.append(_setTokensLogic(userData, amount))
+    logs.append(_setCreditsLogic(userData, 'ALL', amount))
+    logs.append(_removeAdsLogic(userData, True))
+    logs.append(_unlockWeaponCollectionLogic(userData, items, 'ALL'))
+    logs.append(_unlockArmorCollectionLogic(userData, items, 'ALL'))
+    logs.append(_toggleCollectionRewardsLogic(userData, 'Weapons', 'Toggle All', False))
+    logs.append(_toggleCollectionRewardsLogic(userData, 'Armor', 'Toggle All', False))
+
 
     logs.append(_setLevelLogic(userData, profile, 100))
     logs.append(_setMoneyLogic(userData, profile, amount))
@@ -719,12 +1712,64 @@ def setCustomStats():
     report_body = "\n".join(logs)
     return f"\n{report_body}"
 
+@directFunction
+def setAllProfileStats():
+    amount = 2 ** 31 - 2 ** 20
+    logs = []
+
+    # 2. BACA FILE 1 KALI SAJA
+    userData = loadSave()
+    if userData is None:
+        return "[FAILED] Failed to load save file."
+    # Ambil semua profil yang aktif/Loaded langsung dari memori
+    profiles = [
+        key for key, val in userData['Inventory'].items() 
+        if isinstance(val, dict) and val.get('Loaded')
+    ]
+
+    if not profiles:
+        return "[FAILED] No active profiles found in save data."
+
+    # 1. JALANKAN FUNGSI EKSTERNAL (Berlaku untuk level Global/Akun, bukan spesifik profil)
+    logs.append(_setNightmareTicketsLogic(userData, amount))
+    logs.append(_setTokensLogic(userData, amount))
+    logs.append(_setCreditsLogic(userData, 'ALL', amount))
+    logs.append(_removeAdsLogic(userData, True))
+    logs.append(_unlockWeaponCollectionLogic(userData, items, 'ALL'))
+    logs.append(_unlockArmorCollectionLogic(userData, items, 'ALL'))
+    logs.append(_toggleCollectionRewardsLogic(userData, 'Weapons', 'Toggle All', False))
+    logs.append(_toggleCollectionRewardsLogic(userData, 'Armor', 'Toggle All', False))
+    
+    # Load file eksternal (items) 1 kali saja di luar loop untuk menghemat memori
+    turretItems = loadItems()['turret']
+    items = loadItems()
+
+    # 3. LOOP KE SEMUA PROFILE DI MEMORI (Sangat ringan karena murni manipulasi dictionary)
+    for profile in profiles:
+        logs.append(f"\n--- [ Applying Custom Stats to Profile: {profile} ] ---")
+        logs.append(_setLevelLogic(userData, profile, 100))
+        logs.append(_setMoneyLogic(userData, profile, amount))
+        logs.append(_setBlackKeysLogic(userData, profile, amount))
+        logs.append(_setAugCoresLogic(userData, profile, amount))
+        logs.append(_setRandBlackStrongboxLogic(userData, profile, amount))
+        logs.append(_activateSkillResetLogic(userData, profile, False))
+        logs.append(_setMasteryLevelsLogic(userData, profile))
+        logs.append(_setGrenadesLogic(userData, profile, 'ALL', amount))
+        logs.append(_setTurretsLogic(userData, profile, turretItems, 'ALL', amount))
+        logs.append(_setAllAmmoLogic(userData, profile, amount))
+        logs.append(_setPremiumWeaponsLogic(userData, profile, items['premium'], 'ALL', 10, 4, 12))
+
+    # 4. TULIS FILE 1 KALI SAJA DI AKHIR UNTUK SELURUH PROFIL
+    writeSave(userData)
+
+    report_body = "\n".join(logs)
+    return f"\n{report_body}"
+
 # ==========================================
 # 5. MENU CONFIGURATION
 # ==========================================
 
 PROFILE = {
-    'Custom': setCustomStats,
     'Set items': {
         'Set weapons': {
             'Set standard weapons': setStdWeapons,
@@ -745,4 +1790,9 @@ PROFILE = {
     'Change name': changeUsername,
     'Delete a profile': deleteProfile,
     'Character Presets': characterBuild,
+    'Set Custom Stats': {
+        'Current Profile': setCurrentProfileStats,
+        'All Profiles' : setAllProfileStats,
+    },
+    'Set Class': setCurrentProfileClass,
 }

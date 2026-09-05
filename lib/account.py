@@ -115,7 +115,7 @@ def _unlockArmorCollectionLogic(userData, items, armorType, version=None, armor=
                     return f"{armor} ({version}) has been {'unlocked' if x['CollectionUnlocked'] else 'locked'} in the collection."
         return f'Could not find {armor} ({version}) in the collection.'
 
-def _toggleCollectionRewardsLogic(userData, category, reward, setValue):
+def _toggleCollectionRewardsLogic(userData, category, reward, setValue=None):
     rewards = userData['CollectionRewards']
     weaponRewards = [key for key in rewards.keys() if key.startswith('CollectionRewardWeapon') or 
                       any(w in key for w in ['Pistol', 'SMG', 'Assault', 'Shotgun', 'Sniper', 'Rocket', 'LMG'])]
