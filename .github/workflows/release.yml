@@ -32,7 +32,14 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Set up UPX
+        uses: crazy-max/ghaction-upx@v3
+        with:
+          install-only: true
+          version: "latest"
 
       - name: Install Dependencies
         run: |
@@ -41,10 +48,14 @@ jobs:
           pip install pyinstaller
 
       - name: Build Executable
-        run: pyinstaller --onefile main.py --name SAS4Tool
+        run: pyinstaller main.py --onefile --add-data "lib;lib" --hidden-import=win32api --hidden-import=win32con -n SAS4Tool
+
+      - name: Compress with UPX
+        run: |
+          upx dist/SAS4Tool.exe --lzma --best --force
 
       - name: Upload EXE to GitHub Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release upload ${{ needs.release-please.outputs.tag_name }} dist/SAS4Tool.exe
+          gh release upload ${{ needs.release-please.outputs.tag_name }} dist/SAS4Tool.exe --clobber
