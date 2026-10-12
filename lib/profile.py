@@ -131,9 +131,6 @@ def _setMasteryLevelsLogic(userData, profile):
     return 'Masteries set to max level'
 
 def _setAllAmmoLogic(userData, profile, amount):
-    if 'Ammo' not in userData['Inventory'][profile]:
-        userData['Inventory'][profile]['Ammo'] = {}
-        
     AMMO_KEYS = [
         "ammo_NN_pistol_mep", "ammo_NN_pistol_thermal", "ammo_NN_pistol_energy", "ammo_NN_pistol_chemical",
         "ammo_NN_smg_mep", "ammo_NN_smg_thermal", "ammo_NN_smg_energy", "ammo_NN_smg_chemical",
@@ -202,62 +199,9 @@ def _setAllAmmoLogic(userData, profile, amount):
         "ammo_BP_disk_mep", "ammo_BP_disk_thermal", "ammo_BP_disk_energy", "ammo_BP_disk_chemical",
         "ammo_BP_laser_mep", "ammo_BP_laser_thermal", "ammo_BP_laser_energy", "ammo_BP_laser_chemical",
     ]
-    for ammo_id in AMMO_KEYS:
-        userData['Inventory'][profile]['Ammo'][ammo_id] = amount
+    ammo_dict = userData['Inventory'][profile].setdefault('Ammo', {})
+    ammo_dict.update(dict.fromkeys(AMMO_KEYS, amount))
     return f'[SUCCESS] All types of ammo successfully set to {amount:,}'
-
-def _characterBuildLogic(userData, profile, BUILDS, buildName):
-    inventory = userData['Inventory'][profile]
-    current_class = inventory['Skills'].get('Class')
-
-    selected_preset = BUILDS.get(buildName)
-    if not selected_preset:
-        return f"[FAILED] Preset '{buildName}' not found."
-
-    for w in inventory.get('Weapons', []):
-        if w.get('EquippedSlot'):
-            w['EquippedSlot'] = -1
-
-    for w in inventory.get('Equipment', []):
-        if w.get('Equipped'):
-            w['Equipped'] = False
-
-    next_weapon_index = max([w.get('InventoryIndex', -1) for w in inventory.get('Weapons', [])] + [-1]) + 1
-    next_armor_index = max([e.get('InventoryIndex', -1) for e in inventory.get('Equipment', [])] + [-1]) + 1
-
-    preset_weapons = [dict(item) for item in selected_preset.get("Weapons", [])]
-    preset_equipment = [dict(item) for item in selected_preset.get("Equipment", [])]
-    
-    for i, w in enumerate(preset_weapons):
-        w['InventoryIndex'] = next_weapon_index + i
-        w['Seen'] = True 
-
-    for i, e in enumerate(preset_equipment):
-        e['InventoryIndex'] = next_armor_index + i
-        e['Seen'] = True
-        e['Equipped'] = True
-    
-    if 'Weapons' not in inventory: inventory['Weapons'] = []
-    if 'Equipment' not in inventory: inventory['Equipment'] = []
-    
-    inventory['Weapons'].extend(preset_weapons)
-    inventory['Equipment'].extend(preset_equipment)
-
-    skills_section = inventory['Skills']
-    skills_section['PlayerLevel'] = 100
-    skills_section['PlayerTotalXp'] = 87977897
-    skills_section['AvailableSkillPoints'] = 0
-    
-    class_names = {1: "Medic", 2: "Assault", 3: "Heavy"}
-    preset_skills_map = selected_preset.get("Skills", {})
-    
-    if current_class in preset_skills_map:
-        skills_section['SkillsArray'] = preset_skills_map[current_class]
-        class_status = class_names.get(current_class, f"Class {current_class}")
-    else:
-        return f"[FAILED] Preset '{buildName}' does not support your current class."
-        
-    return f"Applied '{buildName}' configuration for {class_status} successfully!"
 
 def _grantStrongboxLogic(userData, profile, strongbox, itemType):
     box_type = 0 if itemType == 'weapon' else 1
@@ -569,67 +513,64 @@ def setAllAmmo(amount: int = None):
     writeSave(userData)
     return log
 
-@nestedMenuOptions  
-def characterBuild(buildName: str = '__menu_options__'):
-    BUILDS = {
-        "Meta Balanced": {
-            "Skills": {
-                1: [  # --- MEDIC ---
-                    {"SkillName": "fastreload", "SkillLevel": 4},
-                    {"SkillName": "fastmovement", "SkillLevel": 25},
-                    {"SkillName": "toughness", "SkillLevel": 2},
-                    {"SkillName": "bodyarmour", "SkillLevel": 25},
-                    {"SkillName": "criticalshot", "SkillLevel": 25},
-                    {"SkillName": "medkit", "SkillLevel": 25},
-                    {"SkillName": "revive", "SkillLevel": 1},
-                    {"SkillName": "finalfarewell", "SkillLevel": 1}
-                ],
-                2: [  # --- ASSAULT ---
-                    {"SkillName": "fastreload", "SkillLevel": 4},
-                    {"SkillName": "fastmovement", "SkillLevel": 25},
-                    {"SkillName": "bodyarmour", "SkillLevel": 21},
-                    {"SkillName": "criticalshot", "SkillLevel": 7},
-                    {"SkillName": "adrenaline", "SkillLevel": 25},
-                    {"SkillName": "stimshot", "SkillLevel": 1},
-                    {"SkillName": "killingspree", "SkillLevel": 25}
-                ],
-                3: [  # --- HEAVY ---
-                    {"SkillName": "fastreload", "SkillLevel": 4},
-                    {"SkillName": "fastmovement", "SkillLevel": 25},
-                    {"SkillName": "bodyarmour", "SkillLevel": 21},
-                    {"SkillName": "criticalshot", "SkillLevel": 25},
-                    {"SkillName": "holdtheline", "SkillLevel": 25},
-                    {"SkillName": "heavygear", "SkillLevel": 1},
-                    {"SkillName": "toughbody", "SkillLevel": 6},
-                    {"SkillName": "dieanotherday", "SkillLevel": 1}
-                ]
-            },
-            "Weapons": [
-                {
-                    "ID": 10066, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 4,
-                    "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10,
-                    "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 8, "Augment2LVL": 12,
-                    "Augment3ID": 6, "Augment3LVL": 12, "Augment4ID": 3, "Augment4LVL": 12
-                },
-                {
-                    "ID": 222, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 4,
-                    "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10,
-                    "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
-                    "Augment3ID": 3, "Augment3LVL": 12, "Augment4ID": 10, "Augment4LVL": 12
-                }
+PREMIUM_WEAPON_IDS = { 184, 185, 186, 187, 188, 189, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 211, 212, 213, 214, 216, 217, 218, 219, 233 }
+
+BUILDS = {
+    "Meta Balanced": {
+        "Skills": {
+            1: [
+                {"SkillName": "fastreload", "SkillLevel": 4},
+                {"SkillName": "fastmovement", "SkillLevel": 25},
+                {"SkillName": "toughness", "SkillLevel": 2},
+                {"SkillName": "bodyarmour", "SkillLevel": 25},
+                {"SkillName": "criticalshot", "SkillLevel": 25},
+                {"SkillName": "medkit", "SkillLevel": 25},
+                {"SkillName": "revive", "SkillLevel": 1},
+                {"SkillName": "finalfarewell", "SkillLevel": 1}
             ],
-            "Equipment": [
-                {"ID": 10195, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 3, "InventoryIndex": 3, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 23, "Augment1LVL": 12, "Augment2ID": 24, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
-                {"ID": 10137, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 3, "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 20, "Augment2LVL": 12, "Augment3ID": 13, "Augment3LVL": 12, "Equipped": True},
-                {"ID": 10135, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 3, "AugmentSlots": 3, "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 25, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 14, "Augment3LVL": 12, "Equipped": True},
-                {"ID": 229, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 5, "AugmentSlots": 3, "InventoryIndex": 4, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 17, "Augment2LVL": 12, "Augment3ID": 14, "Augment3LVL": 12, "Equipped": True},
-                {"ID": 10167, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 4, "AugmentSlots": 3, "InventoryIndex": 2, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            2: [
+                {"SkillName": "fastreload", "SkillLevel": 4},
+                {"SkillName": "fastmovement", "SkillLevel": 25},
+                {"SkillName": "bodyarmour", "SkillLevel": 21},
+                {"SkillName": "criticalshot", "SkillLevel": 7},
+                {"SkillName": "adrenaline", "SkillLevel": 25},
+                {"SkillName": "stimshot", "SkillLevel": 1},
+                {"SkillName": "killingspree", "SkillLevel": 25}
             ],
+            3: [
+                {"SkillName": "fastreload", "SkillLevel": 4},
+                {"SkillName": "fastmovement", "SkillLevel": 25},
+                {"SkillName": "bodyarmour", "SkillLevel": 21},
+                {"SkillName": "criticalshot", "SkillLevel": 25},
+                {"SkillName": "holdtheline", "SkillLevel": 25},
+                {"SkillName": "heavygear", "SkillLevel": 1},
+                {"SkillName": "toughbody", "SkillLevel": 6},
+                {"SkillName": "dieanotherday", "SkillLevel": 1}
+            ]
         },
-        # ----------------------------------------------------
-        # HEAVY BUILDS
-        # ----------------------------------------------------
-        "Critbrecher Heavy": {
+        "Weapons": [
+            {
+                "ID": 10066, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 4,
+                "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 8, "Augment2LVL": 12,
+                "Augment3ID": 6, "Augment3LVL": 12, "Augment4ID": 3, "Augment4LVL": 12
+            },
+            {
+                "ID": 222, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 4,
+                "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10,
+                "Augment1ID": 1, "Augment1LVL": 12, "Augment2ID": 6, "Augment2LVL": 12,
+                "Augment3ID": 3, "Augment3LVL": 12, "Augment4ID": 10, "Augment4LVL": 12
+            }
+        ],
+        "Equipment": [
+            {"ID": 10195, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 1, "AugmentSlots": 3, "InventoryIndex": 3, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 23, "Augment1LVL": 12, "Augment2ID": 24, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10137, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 2, "AugmentSlots": 3, "InventoryIndex": 0, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 17, "Augment1LVL": 12, "Augment2ID": 20, "Augment2LVL": 12, "Augment3ID": 13, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10135, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 3, "AugmentSlots": 3, "InventoryIndex": 1, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 25, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 14, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 229, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 5, "AugmentSlots": 3, "InventoryIndex": 4, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 17, "Augment2LVL": 12, "Augment3ID": 14, "Augment3LVL": 12, "Equipped": True},
+            {"ID": 10167, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 4, "AugmentSlots": 3, "InventoryIndex": 2, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
+        ],
+    },
+    "Critbrecher Heavy": {
         "Skills": {
             3: [
                 {"SkillName": "holdtheline", "SkillLevel": 25},
@@ -971,10 +912,6 @@ def characterBuild(buildName: str = '__menu_options__'):
             {"ID": 241, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 5, "AugmentSlots": 3, "InventoryIndex": 4, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 19, "Augment3LVL": 12, "Equipped": True},
         ],
     },
-
-    # ----------------------------------------------------
-    # ASSAULT BUILDS
-    # ----------------------------------------------------
     "Race Modded Crit Assault": {
         "Skills": {
             2: [
@@ -1378,10 +1315,6 @@ def characterBuild(buildName: str = '__menu_options__'):
             {"ID": 241, "EquipVersion": 0, "Grade": 12, "EquippedSlot": 5, "AugmentSlots": 3, "InventoryIndex": 4, "Seen": True, "BonusStatsLevel": 10, "Augment1ID": 22, "Augment1LVL": 12, "Augment2ID": 13, "Augment2LVL": 12, "Augment3ID": 15, "Augment3LVL": 12, "Equipped": True},
         ],
     },
-
-    # ----------------------------------------------------
-    # MEDIC BUILDS
-    # ----------------------------------------------------
     "Hospital Medic": {
         "Skills": {
             1: [
@@ -1618,25 +1551,117 @@ def characterBuild(buildName: str = '__menu_options__'):
         "Weapons": [],
         "Equipment": [],
     },
-    }
+}
 
+@nestedMenuOptions  
+def characterBuild(buildName: str = '__menu_options__'):
     userData = loadSave()
     if userData is None:
         return {} if buildName == '__menu_options__' else "[FAILED] Failed to load save file."
+    
     profile = loadConfig()['current_profile']
     
     if buildName == '__menu_options__':
-        inventory = userData['Inventory'][profile]
-        current_class = inventory['Skills'].get('Class')
-        valid_options = {}
-        for name, data in BUILDS.items():
-            if "Skills" in data and current_class in data["Skills"]:
-                valid_options[name] = characterBuild
-        return valid_options
+        current_class = userData['Inventory'][profile].get('Skills', {}).get('Class')
+        return {
+            name: characterBuild
+            for name, data in BUILDS.items()
+            if "Skills" in data and current_class in data["Skills"]
+        }
 
     log = _characterBuildLogic(userData, profile, BUILDS, buildName)
     writeSave(userData)
     return log
+
+def _update_or_add_weapon(inventory: dict, preset_weapon: dict, next_index: int) -> int:
+    """
+    Jika ID termasuk senjata premium dan sudah ada di inventori:
+        -> Update slot augment, bonus stats, grade, dan equipped slot tanpa duplikasi.
+    Jika bukan premium atau belum dimiliki:
+        -> Tambahkan item baru ke inventori dan increment next_index.
+    """
+    weapon_id = preset_weapon.get('ID')
+    owned_weapons = inventory['Weapons']
+    is_premium = weapon_id in PREMIUM_WEAPON_IDS
+
+    target_weapon = None
+    if is_premium:
+        target_weapon = next((w for w in owned_weapons if w.get('ID') == weapon_id), None)
+
+    if target_weapon is not None:
+        # Update atribut augment dan level senjata yang sudah ada
+        target_weapon['EquippedSlot'] = preset_weapon.get('EquippedSlot', -1)
+        target_weapon['Grade'] = preset_weapon.get('Grade', target_weapon.get('Grade', 12))
+        target_weapon['BonusStatsLevel'] = preset_weapon.get('BonusStatsLevel', target_weapon.get('BonusStatsLevel', 10))
+        target_weapon['AugmentSlots'] = preset_weapon.get('AugmentSlots', 4)
+        target_weapon['Seen'] = True
+
+        for aug_idx in range(1, 5):
+            id_key = f'Augment{aug_idx}ID'
+            lvl_key = f'Augment{aug_idx}LVL'
+            target_weapon[id_key] = preset_weapon.get(id_key, 0)
+            target_weapon[lvl_key] = preset_weapon.get(lvl_key, 0)
+        return next_index
+
+    # Jika item baru: clone dict dan beri index berikutnya
+    new_weapon = dict(preset_weapon)
+    new_weapon['InventoryIndex'] = next_index
+    new_weapon['Seen'] = True
+    owned_weapons.append(new_weapon)
+    return next_index + 1
+
+def _characterBuildLogic(userData, profile, builds, buildName):
+    inventory = userData['Inventory'][profile]
+    current_class = inventory.get('Skills', {}).get('Class')
+
+    selected_preset = builds.get(buildName)
+    if not selected_preset:
+        return f"[FAILED] Preset '{buildName}' not found."
+
+    preset_skills_map = selected_preset.get("Skills", {})
+    if current_class not in preset_skills_map:
+        return f"[FAILED] Preset '{buildName}' does not support your current class."
+
+    # Pastikan list inventori ada
+    owned_weapons = inventory.setdefault('Weapons', [])
+    owned_equipment = inventory.setdefault('Equipment', [])
+
+    # Lepaskan semua item yang sedang terpasang
+    for w in owned_weapons:
+        if w.get('EquippedSlot', -1) != -1:
+            w['EquippedSlot'] = -1
+
+    for e in owned_equipment:
+        if e.get('Equipped', False):
+            e['Equipped'] = False
+
+    # Hitung index awal inventori
+    next_weapon_index = max([w.get('InventoryIndex', -1) for w in owned_weapons] + [-1]) + 1
+    next_armor_index = max([e.get('InventoryIndex', -1) for e in owned_equipment] + [-1]) + 1
+
+    # Proses Senjata (Update augment jika premium sudah ada, tambahkan jika belum)
+    for preset_w in selected_preset.get("Weapons", []):
+        next_weapon_index = _update_or_add_weapon(inventory, preset_w, next_weapon_index)
+
+    # Proses Armor/Equipment (Selalu extend item baru)
+    for i, e in enumerate(selected_preset.get("Equipment", [])):
+        new_equip = dict(e)
+        new_equip['InventoryIndex'] = next_armor_index + i
+        new_equip['Seen'] = True
+        new_equip['Equipped'] = True
+        owned_equipment.append(new_equip)
+
+    # Konfigurasi Skill & Level Karakter
+    skills_section = inventory['Skills']
+    skills_section['PlayerLevel'] = 100
+    skills_section['PlayerTotalXp'] = 87977897
+    skills_section['AvailableSkillPoints'] = 0
+    skills_section['SkillsArray'] = preset_skills_map[current_class]
+
+    class_names = {1: "Medic", 2: "Assault", 3: "Heavy"}
+    class_status = class_names.get(current_class, f"Class {current_class}")
+    return f"Applied '{buildName}' configuration for {class_status} successfully!"
+
 
 CLASS_MAP = {
     'Medic': 1,
@@ -1730,6 +1755,10 @@ def setAllProfileStats():
     if not profiles:
         return "[FAILED] No active profiles found in save data."
 
+    # Load file eksternal (items) 1 kali saja di luar loop untuk menghemat memori
+    turretItems = loadItems()['turret']
+    items = loadItems()
+    
     # 1. JALANKAN FUNGSI EKSTERNAL (Berlaku untuk level Global/Akun, bukan spesifik profil)
     logs.append(_setNightmareTicketsLogic(userData, amount))
     logs.append(_setTokensLogic(userData, amount))
@@ -1740,9 +1769,6 @@ def setAllProfileStats():
     logs.append(_toggleCollectionRewardsLogic(userData, 'Weapons', 'Toggle All', False))
     logs.append(_toggleCollectionRewardsLogic(userData, 'Armor', 'Toggle All', False))
     
-    # Load file eksternal (items) 1 kali saja di luar loop untuk menghemat memori
-    turretItems = loadItems()['turret']
-    items = loadItems()
 
     # 3. LOOP KE SEMUA PROFILE DI MEMORI (Sangat ringan karena murni manipulasi dictionary)
     for profile in profiles:
