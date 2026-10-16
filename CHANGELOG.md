@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.0.2](https://github.com/Lusmaysh/SAS4Tool/compare/v5.0.1...v5.0.2) (2026-10-12)
+
+
+### Bug Fixes
+
+* **setAllProfileStats:** adjust execution sequence for data fetching ([7ddb823](https://github.com/Lusmaysh/SAS4Tool/commit/7ddb8233d111cb1591f7095c419e557f3ab66da9))
+
 ## [5.0.1](https://github.com/Lusmaysh/SAS4Tool/compare/v5.0.0...v5.0.1) (2026-09-05)
 
 
